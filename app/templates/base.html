@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="/static/order-up.css"> -->
+    {% if title %}
+      <title>{{ title }} - TripCamp</title>
+    {% else %}
+      <title>Welcome to TripCamp</title>
+    {% endif %}
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+  </body>
+</html>
