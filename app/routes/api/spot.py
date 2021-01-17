@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask.json import jsonify
 
 from app.db.models.spot import Spot
 from app.db.models.review import Review
@@ -18,4 +19,4 @@ def spots_index():
 def spots_with_reviews_index():
   spots = Spot.query.order_by(Spot.id).all()
   data = [spot.to_dict() for spot in spots]
-  return {"data": {"spots": {"allSpots": data}}}
+  return {"spots": data}

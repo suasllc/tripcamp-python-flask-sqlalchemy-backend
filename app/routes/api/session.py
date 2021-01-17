@@ -2,6 +2,8 @@ from flask import (
   Blueprint, redirect, render_template, url_for, request, make_response, Response
 )
 # from flask.Response import set_cookie
+import os
+
 from flask.json import jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -10,13 +12,23 @@ from ..forms import LoginForm, SinupForm
 from ...db.models.user import User
 from ...db.models.userprofile import UserProfile
 
-bp = Blueprint("session", __name__)
+# static_folder = os.path.join(os.pardir, 'static')
+static_folder = './static'
+print('\n\n\n static_folder', static_folder)
+
+bp = Blueprint("session", __name__, static_folder=static_folder, static_url_path='')
 
 
-@bp.route("/session", methods=["GET", "POST"])
+@bp.route("/api/session", methods=["GET", "POST"])
 def login():
   if current_user.is_authenticated:
+    print('\n\n\n Authenticated', current_user.to_dict_safe())
     return jsonify({"user": current_user.to_dict_safe()})
+  if request.method == 'GET':
+    print('\n\n\n\n method = ', request.method)  
+    return {"user": "undefined"}
+  print('\n\n\n\n request.values.to_dict()', request.values, request.method)
+
   credential = request.values.to_dict()['credential']
   password = request.values.to_dict()['password']
   user = User()
@@ -85,7 +97,8 @@ def setcookie():
   resp = make_response("")
   # resp.set_cookie('XSRF-TOKEN',  request.cookies.to_dict()['XSRF-TOKEN'])
 
-  return bp.send_static_file('../../../public/index.html')
+  return resp
+  # return bp.send_static_file('index.html')
 
 '''
   router.get('/api/csrf/restore', (req, res) => {
