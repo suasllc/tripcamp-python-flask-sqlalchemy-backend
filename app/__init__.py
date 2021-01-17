@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_wtf.csrf import CSRFProtect
+# from flask_wtf.csrf import CSRFProtect
 
 
 from .routes.api.spot import bp as spotbp
@@ -12,7 +12,7 @@ from .db.models.user import User
 from .config import Configuration
 
 app = Flask(__name__, static_url_path='/public')
-csrf = CSRFProtect(app)
+# csrf = CSRFProtect(app)
 app.register_blueprint(spotbp)
 app.register_blueprint(bookingbp)
 app.register_blueprint(session.bp)

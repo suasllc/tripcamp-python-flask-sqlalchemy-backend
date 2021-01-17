@@ -1,10 +1,7 @@
 from flask import Blueprint
 from flask.json import jsonify
 
-from app.db.models.spot import Spot
-from app.db.models.review import Review
-from app.db.models.user import User
-from app.db.models.userprofile import UserProfile
+from app.db.models import Spot, Medium, Review, User, UserProfile
 
 
 bp = Blueprint('Spots', __name__, url_prefix='/api/spots')

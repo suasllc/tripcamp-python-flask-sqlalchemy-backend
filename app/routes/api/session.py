@@ -14,23 +14,19 @@ from ...db.models.userprofile import UserProfile
 
 # static_folder = os.path.join(os.pardir, 'static')
 static_folder = './static'
-print('\n\n\n static_folder', static_folder)
 
 bp = Blueprint("session", __name__, static_folder=static_folder, static_url_path='')
 
 
-@bp.route("/api/session", methods=["GET", "POST"])
+@bp.route("/api/session", methods=[ "GET", "POST"])
 def login():
   if current_user.is_authenticated:
-    print('\n\n\n Authenticated', current_user.to_dict_safe())
     return jsonify({"user": current_user.to_dict_safe()})
   if request.method == 'GET':
-    print('\n\n\n\n method = ', request.method)  
-    return {"user": "undefined"}
-  print('\n\n\n\n request.values.to_dict()', request.values, request.method)
+    return {}
 
-  credential = request.values.to_dict()['credential']
-  password = request.values.to_dict()['password']
+  credential = request.json['credential']
+  password = request.json['password']
   user = User()
   if credential.find('@') != -1:
     email = credential
@@ -60,10 +56,10 @@ def login_form():
   return render_template("login.html", form=form)
 
 
-@bp.route('/session/logout', methods=['GET',"POST"])
+@bp.route('/api/session/logout', methods=['GET',"POST"])
 def logout():
   logout_user()
-  return redirect(url_for('.login'))
+  return {}
 
 @bp.route('/session/signup', methods=['GET','POST'])
 def signup():
@@ -91,7 +87,6 @@ def profile():
 
 @bp.route('/api/csrf/restore')
 def setcookie():
-  print('\n\n\n\n', dir(request))
   print('\n\n\n\n', request.cookies.to_dict())
   # if request.method == 'POST':
   resp = make_response("")
