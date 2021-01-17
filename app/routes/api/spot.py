@@ -13,3 +13,9 @@ def spots_index():
   spots = Spot.query.order_by(Spot.id).all()
   data = [spot.to_dict() for spot in spots]
   return {"Spots": data}
+
+@bp.route('/reviews')
+def spots_with_reviews_index():
+  spots = Spot.query.order_by(Spot.id).all()
+  data = [spot.to_dict() for spot in spots]
+  return {"data": {"spots": {"allSpots": data}}}
