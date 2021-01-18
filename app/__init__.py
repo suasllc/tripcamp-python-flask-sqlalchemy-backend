@@ -4,21 +4,21 @@ from flask_migrate import Migrate
 # from flask_wtf.csrf import CSRFProtect
 
 
-from .routes.api.spot import bp as spotbp
-from .routes.api.booking import bp as bookingbp
-from .routes.api.message import bp as messagebp
-from .routes.api.relationship import bp as relationshipbp
 from .routes.api import session
+from .routes.api.spot import bp as spotbp
+from .routes.api.message import bp as messagebp
+from .routes.api.booking import bp as bookingbp
+from .routes.api.relationship import bp as relationshipbp
 from .db.models import db
 from .db.models.user import User
 from .config import Configuration
 
 app = Flask(__name__, static_url_path='/public')
 # csrf = CSRFProtect(app)
-app.register_blueprint(spotbp)
-app.register_blueprint(bookingbp)
 app.register_blueprint(session.bp)
+app.register_blueprint(spotbp)
 app.register_blueprint(messagebp)
+app.register_blueprint(bookingbp)
 app.register_blueprint(relationshipbp)
 app.config.from_object(Configuration)
 db.init_app(app)

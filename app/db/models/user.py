@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
   relatnships1 = db.relationship('Relationship', foreign_keys='Relationship.user1Id')
   relatnships2 = db.relationship('Relationship', foreign_keys='Relationship.user2Id')
   spots = db.relationship('Spot', secondary='Ownerships')
+  mBookings = db.relationship('Booking', foreign_keys='Booking.userId')
 
   def save(self):
     db.session.add(self)
@@ -37,7 +38,8 @@ class User(db.Model, UserMixin):
         "username": self.username,
         "userProfile": self.userProfile[0].to_dict_safe(),
         'messages': [message.to_dict() for message in messages],
-        'relationships': [rel.to_dict() for rel in relatnships]
+        'relationships': [rel.to_dict() for rel in relatnships],
+        'bookings': [booking.to_dict() for booking in self.mBookings]
       }
     else:
       return {
@@ -50,7 +52,7 @@ class User(db.Model, UserMixin):
       return {
         "id": self.id,
         "username": self.username,
-        "userProfile": self.userProfile[0].to_dict_safe()
+        "userProfile": self.userProfile[0].to_dict_safe(),
       }
     else:
       return {

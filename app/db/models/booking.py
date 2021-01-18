@@ -14,8 +14,8 @@ class Booking(db.Model):
   specialRequest = db.Column(db.Text, nullable=True)
   cost = db.Column(db.Float, nullable=True)
 
-  spot = db.relationship('Spot')
-  user = db.relationship('User')
+  spot = db.relationship('Spot', foreign_keys=spotId)
+  user = db.relationship('User', foreign_keys=userId)
 
 
   def to_dict(self):
