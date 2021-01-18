@@ -17,10 +17,11 @@ class User(db.Model, UserMixin):
 
   reviews = db.relationship('Review')
   userProfile = db.relationship('UserProfile')
-  messages = db.relationship('Message', foreign_keys='Message.senderId')
-  # messages = db.relationship('Message', foreign_keys='Message.recipientId')
+  sentMessages = db.relationship('Message', foreign_keys='Message.senderId')
+  recievedMessages = db.relationship('Message', foreign_keys='Message.recipientId')
   relatnships1 = db.relationship('Relationship', foreign_keys='Relationship.user1Id')
   relatnships2 = db.relationship('Relationship', foreign_keys='Relationship.user2Id')
+  spots = db.relationship('Spot', secondary='Ownerships')
 
   def save(self):
     db.session.add(self)
@@ -29,13 +30,13 @@ class User(db.Model, UserMixin):
 
   def to_dict_safe(self):
     relatnships = self.relatnships1 + self.relatnships2
-    # print('\n\n\n\n relatnships', relatnships)
+    messages = self.sentMessages + self.recievedMessages
     if self.userProfile:
       return {
         "id": self.id,
         "username": self.username,
         "userProfile": self.userProfile[0].to_dict_safe(),
-        'messages': [message.to_dict() for message in self.messages],
+        'messages': [message.to_dict() for message in messages],
         'relationships': [rel.to_dict() for rel in relatnships]
       }
     else:

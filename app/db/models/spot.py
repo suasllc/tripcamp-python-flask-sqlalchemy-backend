@@ -7,6 +7,11 @@ class MyEncoder(JSONEncoder):
   def default(self, o):
     return o.__dict__  
 
+# ownership_table = db.Table('ownership', db.Model.metadata,
+#     db.Column('userId', db.Integer, db.ForeignKey('User.id')),
+#     db.Column('spotId', db.Integer, db.ForeignKey('Spot.id'))
+# )
+
 class Spot(db.Model):
   __tablename__ = 'Spots'
 
@@ -26,6 +31,7 @@ class Spot(db.Model):
   website = db.Column(db.String(255), nullable=True)
 
   reviews = db.relationship('Review')
+  users = db.relationship('User', secondary='Ownerships')
 
   def to_dict(self):
     # dct = utils_to_dict(self, 'mediaUrlIds', 'reviews', 'query')
@@ -46,5 +52,6 @@ class Spot(db.Model):
       "perNightRate": self.perNightRate,
       "accommodationType": self.accommodationType,
       "website": self.website,
-      "reviews": [review.to_dict() for review in self.reviews]
+      "Reviews": [review.to_dict() for review in self.reviews],
+      'Users': [user.to_dict_safest() for user in self.users]
     }

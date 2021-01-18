@@ -8,5 +8,6 @@ from .message import Message
 from .review import Review
 from .userprofile import UserProfile
 from .relationship import Relationship
+from .ownership import Ownership
 from .utils import getUrls, utils_to_dict
 
