@@ -1,5 +1,11 @@
 from .db import db
-
+from .medium import Medium
+from .utils import getUrls, utils_to_dict, attrs
+from pprint import pprint
+from json import JSONEncoder
+class MyEncoder(JSONEncoder):
+  def default(self, o):
+    return o.__dict__  
 
 class Spot(db.Model):
   __tablename__ = 'Spots'
@@ -22,13 +28,16 @@ class Spot(db.Model):
   reviews = db.relationship('Review')
 
   def to_dict(self):
+    # dct = utils_to_dict(self, 'mediaUrlIds', 'reviews', 'query')
     return {
       "id": self.id,
       "name": self.name,
       "description": self.description,
       "units": self.units,
       "gpsLocation": self.gpsLocation,
-      "mediaUrlIds": self.mediaUrlIds,
+      # "mediaUrlIds": self.mediaUrlIds,
+      # "urls": self.getUrls(),
+      "urls": getUrls(self.mediaUrlIds),
       "streetAddress": self.streetAddress,
       "city": self.city,
       "stateProvince": self.stateProvince,
