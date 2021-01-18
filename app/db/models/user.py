@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
 
   reviews = db.relationship('Review')
   userProfile = db.relationship('UserProfile')
+  # messages = db.relationship('Message', foreign_keys=["User.senderId"])
+  # messages = db.relationship('Message', foreign_keys=["User.recipientId"])
 
   def save(self):
     db.session.add(self)

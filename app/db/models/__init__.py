@@ -4,7 +4,7 @@ from .user import User
 from .spot import Spot
 from .booking import Booking
 from .medium import Medium
-# from .message import Message
+from .message import Message
 from .review import Review
 from .userprofile import UserProfile
 from .relationship import Relationship

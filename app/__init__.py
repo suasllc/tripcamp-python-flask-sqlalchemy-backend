@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 
 from .routes.api.spot import bp as spotbp
 from .routes.api.booking import bp as bookingbp
+from .routes.api.message import bp as messagebp
 from .routes.api import session
 from .db.models import db
 from .db.models.user import User
@@ -16,6 +17,7 @@ app = Flask(__name__, static_url_path='/public')
 app.register_blueprint(spotbp)
 app.register_blueprint(bookingbp)
 app.register_blueprint(session.bp)
+app.register_blueprint(messagebp)
 app.config.from_object(Configuration)
 db.init_app(app)
 migrate = Migrate(app, db)
