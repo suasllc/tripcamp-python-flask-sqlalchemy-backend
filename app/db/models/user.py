@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import bcrypt
 from .db import db
+# from .message import Message
 import string
 
 
@@ -15,8 +16,10 @@ class User(db.Model, UserMixin):
 
   reviews = db.relationship('Review')
   userProfile = db.relationship('UserProfile')
-  # messages = db.relationship('Message', foreign_keys=["User.senderId"])
-  # messages = db.relationship('Message', foreign_keys=["User.recipientId"])
+  messages = db.relationship('Message', foreign_keys='Message.senderId')
+  # messages = db.relationship('Message', foreign_keys='Message.recipientId')
+  relatnships = db.relationship('Relationship', foreign_keys='Relationship.user1Id')
+
 
   def save(self):
     db.session.add(self)
@@ -28,7 +31,9 @@ class User(db.Model, UserMixin):
       return {
         "id": self.id,
         "username": self.username,
-        "userProfile": self.userProfile[0].to_dict_safe()
+        "userProfile": self.userProfile[0].to_dict_safe(),
+        'messages': [message.to_dict() for message in self.messages],
+        # 'relationships': [rel.to_dict() for rel in self.relatnships]
       }
     else:
       return {

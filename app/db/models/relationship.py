@@ -11,8 +11,8 @@ class Relationship(db.Model):
   lastActionUserId = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
   followingship = db.Column(db.Integer, nullable=False)
 
-  # user1 = db.relationship('User')
-  # user2 = db.relationship('User')
+  user1 = db.relationship('User', foreign_keys=user1Id)
+  user2 = db.relationship('User', foreign_keys=user2Id)
 
 
   def to_dict(self):
@@ -23,6 +23,7 @@ class Relationship(db.Model):
       "status": self.status,
       "lastActionUserId": self.lastActionUserId,
       "followingship": self.followingship,
-      # "user": self.user.to_dict_safest(),
+      "user1": self.user1.to_dict_safest(),
+      "user2": self.user2.to_dict_safest(),
     }
 
